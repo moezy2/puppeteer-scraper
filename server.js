@@ -1,6 +1,6 @@
 const express = require('express');
-// *** CHANGED: Require puppeteer-core instead of puppeteer ***
-const puppeteer = require('puppeteer-core');
+// *** Require the full puppeteer package back ***
+const puppeteer = require('puppeteer');
 const app = express();
 
 // Use the port provided by the hosting environment (e.g., Render) or default to 3000
@@ -14,8 +14,8 @@ async function scrapePage(url) {
 
     try {
         // Launch a headless browser instance
-        // *** CHANGED: Removed executablePath option ***
-        // puppeteer-core will try to find a compatible browser executable in standard locations
+        // *** Keep executablePath removed or commented out ***
+        // The full puppeteer package will try to find the browser installed by the build command
         browser = await puppeteer.launch({
             headless: true, // Set to true for deployment
             args: [
@@ -26,6 +26,7 @@ async function scrapePage(url) {
                 '--disable-gpu',
                 '--no-zygote' // Often needed in certain environments
             ]
+            // executablePath: '...' // <--- ENSURE THIS IS REMOVED OR COMMENTED OUT
         });
         console.log('Browser launched.'); // Log success
 
