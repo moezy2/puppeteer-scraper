@@ -6,6 +6,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('✅ Puppeteer Scraper is running. Send a POST request to /scrape with { "url": "<target-url>" }');
+});
+
 app.post('/scrape', async (req, res) => {
   const { url } = req.body;
 
@@ -36,5 +40,5 @@ app.post('/scrape', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Scraper is running on port ${PORT}`);
+  console.log(`✅ Scraper is running on port ${PORT}`);
 });
