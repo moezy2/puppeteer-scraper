@@ -1,17 +1,17 @@
-# Use official Node.js 18 image with Playwright dependencies pre-installed
-FROM mcr.microsoft.com/playwright:focal
+# Use the Playwright 1.52.0 base image (with all browser dependencies)
+FROM mcr.microsoft.com/playwright:v1.52.0-focal
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy app source code
+# Copy the rest of the app
 COPY . .
 
-# Expose the port the app runs on
+# Expose the port (optional, for clarity)
 EXPOSE 10000
 
 # Start the app
