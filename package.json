@@ -1,13 +1,16 @@
 {
-  "name": "puppeteer-scraper",
+  "name": "n8n-headless-scraper",
   "version": "1.0.0",
-  "description": "A simple scraper using Playwright",
-  "main": "scrape.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node scrape.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "express": "^4.18.2",
-    "playwright": "1.52.0"
+    "express": "^5.1.0",
+    "puppeteer": "^24.8.2"
   }
 }
