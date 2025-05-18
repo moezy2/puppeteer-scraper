@@ -1,18 +1,15 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Parse JSON body
 app.use(express.json());
 
-// Optional: Respond to root URL
 app.get('/', (req, res) => {
-  res.send('✅ Puppeteer Scraper is running. Send a POST request to /scrape with { "url": "<target-url>" }');
+  res.send('✅ Puppeteer-core Scraper is running. POST to /scrape with { "url": "<target-url>" }');
 });
 
-// Main scraping route
 app.post('/scrape', async (req, res) => {
   const { url } = req.body;
 
@@ -21,22 +18,23 @@ app.post('/scrape', async (req, res) => {
   }
 
   try {
+    // Use system-installed Chrome binary on Render
     const browser = await puppeteer.launch({
-      headless: 'new', // Use new headless mode for Chromium
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      executablePath: '/usr/bin/google-chrome-stable',  // Default Chrome on Render
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: 'new',
     });
 
     const page = await browser.newPage();
 
-    // Fake user-agent to avoid bot detection
+    // Set user-agent to reduce bot detection
     await page.setUserAgent(
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
     );
 
-    // Go to target page
     await page.goto(url, {
       waitUntil: 'networkidle2',
-      timeout: 60000
+      timeout: 60000,
     });
 
     const html = await page.content();
@@ -49,7 +47,6 @@ app.post('/scrape', async (req, res) => {
   }
 });
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`✅ Scraper is running on port ${PORT}`);
 });
