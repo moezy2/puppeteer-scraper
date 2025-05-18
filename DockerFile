@@ -1,0 +1,20 @@
+# Use Playwright's official Docker image with all dependencies included
+FROM mcr.microsoft.com/playwright:focal
+
+# Set working directory inside container
+WORKDIR /app
+
+# Copy package.json and package-lock.json if you have it
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your app code into the container
+COPY . .
+
+# Expose the port your app listens on (default 10000)
+EXPOSE 10000
+
+# Command to run your app
+CMD ["node", "scrape.js"]
